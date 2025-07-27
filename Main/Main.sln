@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Perks", "..\Perks\Perks.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UltimateWeapons", "..\UltimateWeapons\UltimateWeapons.csproj", "{E5E28698-F36E-498A-BCE1-0BE1CFC510B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "..\Website\Website.csproj", "{26B99EBD-91D5-44EE-A059-0BC684B6076F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E5E28698-F36E-498A-BCE1-0BE1CFC510B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5E28698-F36E-498A-BCE1-0BE1CFC510B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5E28698-F36E-498A-BCE1-0BE1CFC510B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26B99EBD-91D5-44EE-A059-0BC684B6076F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26B99EBD-91D5-44EE-A059-0BC684B6076F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26B99EBD-91D5-44EE-A059-0BC684B6076F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26B99EBD-91D5-44EE-A059-0BC684B6076F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
