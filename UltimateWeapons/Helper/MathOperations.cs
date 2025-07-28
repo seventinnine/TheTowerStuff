@@ -1,6 +1,6 @@
 ﻿namespace UltimateWeapons.Helper;
 
-public partial class MathOperations
+public class MathOperations
 {
     /// <summary>
     /// Checks if a point is inside a circle

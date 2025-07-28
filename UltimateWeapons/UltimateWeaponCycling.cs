@@ -1,4 +1,6 @@
-﻿namespace UltimateWeapons;
+﻿using UltimateWeapons.Cycleables;
+
+namespace UltimateWeapons;
 
 public class UltimateWeaponCycling
 {
@@ -15,22 +17,13 @@ public class UltimateWeaponCycling
         }
     }
 
-    public void Simulate()
+
+    public void Simulate(List<Cycleable> cycleables, Action beforeSecondRun)
     {
-        var sim = new BlackHoleCoverageSimulator();
-        decimal towerRange = 69.5m;
-        List<UltimateWeapon> uws1 = [];
-        uws1.Add(new UltimateWeapon(new UltimateWeaponStats(200, 35, 16.98m))); // GT
-        uws1.Add(new UltimateWeapon(new UltimateWeaponStats(300, 10, 2.0m))); // DW
-        uws1.Add(new UltimateWeapon(new UltimateWeaponStats(200, 30, 7.5m, sim.Simulate(towerRange, 46.0m, 1)))); // BH
-        var res1 = Simulate(uws1);
+        var res1 = Simulate(cycleables);
         Console.WriteLine(res1);
-        List<UltimateWeapon> uws2 = [];
-        uws2.Add(new UltimateWeapon(new UltimateWeaponStats(200, 35, 16.98m))); // GT
-        uws2.Add(new UltimateWeapon(new UltimateWeaponStats(300, 10, 2.0m))); // DW
-        uws2.Add(new UltimateWeapon(new UltimateWeaponStats(200, 30, 7.5m, sim.Simulate(towerRange, 50.0m, 2)))); // BH
-        //uws2.Add(new UltimateWeapon(new UltimateWeaponStats(120, 20, 2.0m, 0.02m))); // GB
-        var res2 = Simulate(uws2);
+        beforeSecondRun.Invoke();
+        var res2 = Simulate(cycleables);
         Console.WriteLine(res2);
         Console.WriteLine($"Increase: {((res2.CoinsPerSecond / res1.CoinsPerSecond) - 1.0m) * 100.0m,3:N2} %");
     }
@@ -39,14 +32,14 @@ public class UltimateWeaponCycling
     /// Simulates one synchronized cycle between all provided <paramref name="ultimateWeapons"/>. Assumes steady income flow of 1 coin/sec.
     /// Steps over this cycle second-wise and accumulates the currently applying coin multiplier.
     /// </summary>
-    public static CycleInfo Simulate(List<UltimateWeapon> ultimateWeapons)
+    public static CycleInfo Simulate(List<Cycleable> ultimateWeapons)
     {
         int second = 0;
         decimal accumulatedMultiplier = 0.0m;
         do
         {
             decimal multiplier = 1.0m;
-            foreach (UltimateWeapon ultimateWeapon in ultimateWeapons)
+            foreach (Cycleable ultimateWeapon in ultimateWeapons)
             {
                 if (ultimateWeapon.CanActivate())
                 {
@@ -67,7 +60,7 @@ public class UltimateWeaponCycling
         return new CycleInfo(second, coinsPerSecond);
     }
 
-    private static bool CanActivateUWsSimultaneously(List<UltimateWeapon> ultimateWeapons)
+    private static bool CanActivateUWsSimultaneously(List<Cycleable> ultimateWeapons)
     {
         return ultimateWeapons.All(uw => uw.CanActivate());
     }

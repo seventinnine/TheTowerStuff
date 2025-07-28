@@ -13,14 +13,14 @@ public class BlackHoleCoverageSimulator
     private static readonly Lock locker = new();
 
     /// <summary>
-    /// Calculates the percentage of the tower range diameter covered by N random black holes using a monte carlo simulation.
+    /// Calculates the percentage of the tower range diameter (from <paramref name="towerRadius"/>) covered by <paramref name="numberOfBlackHoles"/> random black holes using a monte carlo simulation.
     /// </summary>
-    /// <param name="towerRange">Tower Range (TR) - radius of the main circle</param>
-    /// <param name="blackHoleRadius">Black Hole Radius (BHR)</param>
-    /// <param name="numberOfBlackHoles">Number of black holes (N)</param>
+    /// <param name="towerRadius">Tower Range - radius of the main circle</param>
+    /// <param name="blackHoleRadius">Black Hole Radius</param>
+    /// <param name="numberOfBlackHoles">Number of black holes</param>
     /// <returns>Percentage of diameter covered by black holes (0.0-1.0)</returns>
     public decimal Simulate(
-        decimal towerRange,
+        decimal towerRadius,
         decimal blackHoleRadius,
         int numberOfBlackHoles)
     {
@@ -32,7 +32,7 @@ public class BlackHoleCoverageSimulator
             {
                 for (int i = 0; i < TRIALS; i++)
                 {
-                    localAverage += CalculateAverageDiamaterCoverage(towerRange, blackHoleRadius, numberOfBlackHoles);
+                    localAverage += CalculateAverageDiamaterCoverage(towerRadius, blackHoleRadius, numberOfBlackHoles);
                 }
                 return localAverage;
             },
@@ -48,12 +48,12 @@ public class BlackHoleCoverageSimulator
     }
 
     private const int CIRCLE_DEGREES = 360;
-    private const decimal stepSize = 0.1m;
+    private const decimal stepSize = 0.5m;
 
     private static decimal CalculateAverageDiamaterCoverage(decimal towerRange, decimal blackHoleRadius, int numberOfBlackHoles)
     {
         // Generate N random black hole positions
-        var blackHoles = GenerateBlackHoles(towerRange * 0.9m, blackHoleRadius, numberOfBlackHoles);
+        var blackHoles = GenerateBlackHoles(towerRange * 0.90m, blackHoleRadius, numberOfBlackHoles);
 
         int coveredDiameterSteps = 0;
 
