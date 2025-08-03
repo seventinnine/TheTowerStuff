@@ -8,52 +8,20 @@ namespace UltimateWeapons;
 /// </summary>
 public class BlackHoleCoverageSimulator
 {
-    private const int THREADS = 50;
-    private const int TRIALS = 200;
-    private static readonly Lock locker = new();
+    private const int CIRCLE_DEGREES = 360;
+    private const decimal stepSize = 0.01m;
 
     /// <summary>
-    /// Calculates the percentage of the tower range diameter (from <paramref name="towerRadius"/>) covered by <paramref name="numberOfBlackHoles"/> random black holes using a monte carlo simulation.
+    /// Calculates the percentage of the tower range diameter (from <paramref name="towerRange"/>) covered by <paramref name="numberOfBlackHoles"/> black holes.
     /// </summary>
-    /// <param name="towerRadius">Tower Range - radius of the main circle</param>
+    /// <param name="towerRange">Tower Range - radius of the main circle</param>
     /// <param name="blackHoleRadius">Black Hole Radius</param>
     /// <param name="numberOfBlackHoles">Number of black holes</param>
     /// <returns>Percentage of diameter covered by black holes (0.0-1.0)</returns>
-    public decimal Simulate(
-        decimal towerRadius,
-        decimal blackHoleRadius,
-        int numberOfBlackHoles)
-    {
-        decimal sumCoverage = 0.0m;
-        Parallel.For(
-            0, THREADS,
-            () => 0.0m,
-            (_, state, localAverage) =>
-            {
-                for (int i = 0; i < TRIALS; i++)
-                {
-                    localAverage += CalculateAverageDiamaterCoverage(towerRadius, blackHoleRadius, numberOfBlackHoles);
-                }
-                return localAverage;
-            },
-            (localAverage) =>
-            {
-                lock (locker)
-                {
-                    sumCoverage += localAverage;
-                }
-            });
-
-        return sumCoverage / (THREADS * TRIALS);
-    }
-
-    private const int CIRCLE_DEGREES = 360;
-    private const decimal stepSize = 0.5m;
-
-    private static decimal CalculateAverageDiamaterCoverage(decimal towerRange, decimal blackHoleRadius, int numberOfBlackHoles)
+    public decimal Simulate(decimal towerRange, decimal blackHoleRadius, int numberOfBlackHoles)
     {
         // Generate N random black hole positions
-        var blackHoles = GenerateBlackHoles(towerRange * 0.90m, blackHoleRadius, numberOfBlackHoles);
+        var blackHoles = GenerateBlackHoles(towerRange * 0.9m, blackHoleRadius, numberOfBlackHoles);
 
         int coveredDiameterSteps = 0;
 
@@ -91,23 +59,22 @@ public class BlackHoleCoverageSimulator
     }
 
     /// <summary>
-    /// Generates N random black hole positions on a circle of given radius
+    /// Generates N evenly spaced black hole positions on a circle of given radius
     /// </summary>
     private static List<BlackHole> GenerateBlackHoles(decimal innerRadius, decimal blackHoleRadius, int count)
     {
-        var random = new Random();
         var blackHoles = new List<BlackHole>();
 
         for (int i = 0; i < count; i++)
         {
-            // Generate random angle
-            double angle = random.NextDouble() * 2 * Math.PI;
+            // Compute equally spaced angle for each black hole
+            double angle = i * (2 * Math.PI / count);
 
             // Calculate position on the circle
             decimal x = innerRadius * (decimal)Math.Cos(angle);
             decimal y = innerRadius * (decimal)Math.Sin(angle);
 
-            blackHoles.Add(new BlackHole(new Point(x, y), blackHoleRadius));
+            blackHoles.Add(new BlackHole(new Point(x, y), blackHoleRadius * 1.5m));
         }
 
         return blackHoles;

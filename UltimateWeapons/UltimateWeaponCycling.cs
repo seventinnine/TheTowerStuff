@@ -18,14 +18,17 @@ public class UltimateWeaponCycling
     }
 
 
-    public void Simulate(List<Cycleable> cycleables, Action beforeSecondRun)
+    public void Simulate(List<Cycleable> cycleables, params Action[] beforeSecondRuns)
     {
         var res1 = Simulate(cycleables);
         Console.WriteLine(res1);
-        beforeSecondRun.Invoke();
-        var res2 = Simulate(cycleables);
-        Console.WriteLine(res2);
-        Console.WriteLine($"Increase: {((res2.CoinsPerSecond / res1.CoinsPerSecond) - 1.0m) * 100.0m,3:N2} %");
+        foreach (var beforeSecondRun in beforeSecondRuns)
+        {
+            beforeSecondRun.Invoke();
+            var res2 = Simulate(cycleables);
+            Console.WriteLine(res2);
+            Console.WriteLine($"Increase: {((res2.CoinsPerSecond / res1.CoinsPerSecond) - 1.0m) * 100.0m,3:N2} %");
+        }
     }
 
     /// <summary>
