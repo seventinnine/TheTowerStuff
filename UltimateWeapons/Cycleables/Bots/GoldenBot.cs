@@ -3,6 +3,7 @@ namespace UltimateWeapons.Cycleables.Bots;
 
 public class GoldenBot(BotProperties properties) : Cycleable
 {
+    public override string Name => "Golden Bot";
     // Duration - Cooldown - Bonus - Size
     public BotProperties Properties { get; } = properties;
 

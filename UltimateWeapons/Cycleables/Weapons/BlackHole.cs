@@ -1,22 +1,21 @@
-﻿namespace UltimateWeapons.Cycleables.Weapons;
+﻿
+
+namespace UltimateWeapons.Cycleables.Weapons;
 
 public class BlackHole : UltimateWeapon
 {
     public TowerStats TowerStats { get; }
+    public override string Name => "Black Hole";
 
     // Size - Duration - Cooldown
-    public UltimateWeaponProperties Properties { get; }
     public ScalingValue Lab_BHExtra { get; }
     public ScalingValue Lab_BHCoinBonus { get; }
-    public bool PerkEnabled { get; }
 
-    public BlackHole(TowerStats towerStats, UltimateWeaponProperties properties, ScalingValue lab_BHExtra, ScalingValue lab_BHCoinBonus, bool perkEnabled) : base()
+    public BlackHole(TowerStats towerStats, UltimateWeaponProperties properties, ScalingValue lab_BHExtra, ScalingValue lab_BHCoinBonus, bool perkEnabled) : base(properties, perkEnabled)
     {
         TowerStats = towerStats;
-        Properties = properties;
         Lab_BHExtra = lab_BHExtra;
         Lab_BHCoinBonus = lab_BHCoinBonus;
-        PerkEnabled = perkEnabled;
     }
 
     protected override Stats EvaluateStats()
@@ -49,5 +48,21 @@ public class BlackHole : UltimateWeapon
     private decimal EvaluateBHRadius()
     {
         return (int)(Properties.Slot1.CurrentValue + ModuleSubEffects.Slot1);
+    }
+
+    public static BlackHole Create(TowerStats towerStats)
+    {
+        var bhSize = new LinearScalingValue(level: 0, maxLevel: 20, startValue: 30.0m, valuePerLevel: 2.0m) { Name = "Size" };
+        var bhDuration = new LinearScalingValue(level: 0, maxLevel: 23, startValue: 15, valuePerLevel: 1) { Name = "Duration" };
+        var bhCooldown = new LinearScalingValue(level: 0, maxLevel: 15, startValue: 200, valuePerLevel: -10) { Name = "Cooldown" };
+        var bhWorkshop = new UltimateWeaponProperties(bhSize, bhDuration, bhCooldown);
+        var bhCoinBonusLab = new LinearScalingValue(level: 0, maxLevel: 20, startValue: 1.0m, valuePerLevel: 0.5m) { Name = "Coin Bonus" };
+        var bhExtraLab = new LinearScalingValue(level: 0, maxLevel: 1, startValue: 0, valuePerLevel: 1) { Name = "Extra Black Hole" };
+        return new BlackHole(towerStats, bhWorkshop, bhExtraLab, bhCoinBonusLab, false) { PerkDescription = "Black Hole duration +12.0s" };
+    }
+
+    public override IReadOnlyList<ScalingValue> GetLabSlots()
+    {
+        return [Lab_BHCoinBonus, Lab_BHExtra];
     }
 }

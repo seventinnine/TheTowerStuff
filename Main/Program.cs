@@ -15,7 +15,7 @@ namespace Perks
 
             var tower = new TowerStats(towerRadius: 69.5m);
 
-            var gtBonus = new LinearScalingValue(level: 6, maxLevel: 50, startValue: 5.0m, valuePerLevel: 0.8m);
+            var gtBonus = new LinearScalingValue(level: 7, maxLevel: 50, startValue: 5.0m, valuePerLevel: 0.8m);
             var gtDuration = new LinearScalingValue(level: 4, maxLevel: 50, startValue: 15, valuePerLevel: 1);
             var gtCooldown = new LinearScalingValue(level: 10, maxLevel: 20, startValue: 300, valuePerLevel: -10);
             var gtWorkshop = new UltimateWeaponProperties(gtBonus, gtDuration, gtCooldown);
@@ -29,7 +29,7 @@ namespace Perks
             var bhDuration = new LinearScalingValue(level: 4, maxLevel: 50, startValue: 15, valuePerLevel: 1);
             var bhCooldown = new LinearScalingValue(level: 0, maxLevel: 20, startValue: 200, valuePerLevel: -10);
             var bhWorkshop = new UltimateWeaponProperties(bhSize, bhDuration, bhCooldown);
-            var bhCoinBonusLab = new LinearScalingValue(level: 14, maxLevel: 20, startValue: 1.0m, valuePerLevel: 0.5m);
+            var bhCoinBonusLab = new LinearScalingValue(level: 15, maxLevel: 20, startValue: 1.0m, valuePerLevel: 0.5m);
             var bhExtraLab = new LinearScalingValue(level: 1, maxLevel: 1, startValue: 0, valuePerLevel: 1);
             var bh = new BlackHole(tower, bhWorkshop, bhExtraLab, bhCoinBonusLab, true);
 
@@ -68,6 +68,7 @@ namespace Perks
                 },
                 () =>
                 {
+                    Console.WriteLine("+1 GT bonus");
                     bhDuration.Level -= 1;
                     bh.ReEvaluate();
                     gtBonus.Level += 1;
@@ -78,6 +79,15 @@ namespace Perks
                     gtBonus.Level -= 1;
                     gtDuration.Level += 1;
                     gt.ReEvaluate();
+                },
+                () =>
+                {
+                    Console.WriteLine("+1 BH/GT duration");
+                    gtDuration.Level -= 1;
+                    gtDuration.Level += 1;
+                    gt.ReEvaluate();
+                    bhDuration.Level += 1;
+                    bh.ReEvaluate();
                 });
         }
     }

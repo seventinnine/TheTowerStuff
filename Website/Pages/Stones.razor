@@ -1,0 +1,46 @@
+﻿@page "/stones"
+<PageTitle>Stones</PageTitle>
+
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Stone Investment</h1>
+    
+    <!-- Select Box -->
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <label for="category-select" class="form-label fw-semibold">Select Category</label>
+            <select @bind="selectBox_UWName" class="form-select" disabled="@DisableAddingUWs">
+                @foreach(var uw in AvailableUWs)
+                {
+                    <option value="@uw">@uw</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button disabled="@DisableAddingUWs" type="button" class="btn btn-primary" onclick="@(() => AddUW(selectBox_UWName))">Add</button>
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+
+        @foreach(var uw in uws)
+        {
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-img-top bg-primary bg-gradient" style="height: 200px; background: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%);"></div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@uw.Name</h5>
+                        <Website.Components.PerkToggleComponent Description="@uw.PerkDescription" Value="@uw.PerkEnabled" ValueChanged="@((v) => { uw.PerkEnabled = v; RecalculateUWs();})"></Website.Components.PerkToggleComponent>
+                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot1" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot2" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot3" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                        <p>Stats: @uw.CurrentStats</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div>Result: @CoinsPerSecond</div>
+</div>
+

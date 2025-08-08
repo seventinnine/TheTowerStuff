@@ -17,10 +17,10 @@ public abstract class Cycleable
         /// </summary>
         public decimal BonusCoinMultiplier => CoinMultiplier - 1.0m;
     }
-
+    public abstract string Name { get; }
 
     private Stats? cachedStats;
-    private Stats stats => GetStats();
+    public Stats CurrentStats => GetStats();
 
     public Stats GetStats()
     {
@@ -33,15 +33,15 @@ public abstract class Cycleable
 
     public int RemainingCooldown { get; private set; }
 
-    public void Activate() => RemainingCooldown = stats.Cooldown;
-    public bool IsActive() => stats.Cooldown - RemainingCooldown <= stats.Duration;
+    public void Activate() => RemainingCooldown = CurrentStats.Cooldown;
+    public bool IsActive() => CurrentStats.Cooldown - RemainingCooldown <= CurrentStats.Duration;
 
     public void ForwardTime(int delta = 1) => RemainingCooldown -= delta;
     public bool CanActivate() => RemainingCooldown == 0;
 
     public decimal EffectiveMultiplier()
     {
-        return stats.BonusCoinMultiplier * stats.Effectiveness + 1.0m;
+        return CurrentStats.BonusCoinMultiplier * CurrentStats.Effectiveness + 1.0m;
     }
 
     protected abstract Stats EvaluateStats();

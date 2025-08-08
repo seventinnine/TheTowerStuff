@@ -1,0 +1,29 @@
+﻿@using System
+@using Microsoft.AspNetCore.Components
+
+<div class="card mb-3" style="max-width: 350px;">
+    <div class="card-body">
+        <h5 class="card-title">@Value.Name</h5>
+        <p class="card-text mb-1">
+            <strong>Current Value:</strong> @Value.CurrentValue
+        </p>
+        <p class="card-text mb-1">
+            <strong>Level:</strong> @Value.Level / @Value.MaxLevel
+        </p>
+
+        <div class="btn-group" role="group">
+            <button class="btn btn-sm btn-outline-secondary"
+                    @onclick="DecrementLevel"
+                    disabled="@(_isDecrementDisabled)">
+                -
+            </button>
+            <button class="btn btn-sm btn-outline-primary"
+                    @onclick="IncrementLevel"
+                    disabled="@(_isIncrementDisabled)">
+                +
+            </button>
+        </div>
+    </div>
+</div>
+
+
