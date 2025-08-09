@@ -1,5 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using Newtonsoft.Json;
+using UltimateWeapons.Cycleables.Weapons;
 using static Website.Pages.Stones;
 
 namespace Website.Services
@@ -16,7 +17,14 @@ namespace Website.Services
 
                 if (!string.IsNullOrEmpty(storedData))
                 {
-                    return JsonConvert.DeserializeObject<PageData>(storedData, TypeNameSerializerSettings()) ?? new PageData();
+                    var res = JsonConvert.DeserializeObject<PageData>(storedData, TypeNameSerializerSettings()) ?? new PageData();
+                    var bh = res.Uws.FirstOrDefault(uw => uw.GetType() == typeof(BlackHole));
+                    // fix up link between UW and tower stats
+                    if (bh is BlackHole bhUw)
+                    {
+                        bhUw.TowerStats = res.TowerStats;
+                    }
+                    return res;
                 }
                 else
                 {

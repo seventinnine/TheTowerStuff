@@ -73,6 +73,8 @@
         </div>
     </div>
 
+    <Website.Components.TowerStatsComponent TowerStats="@data.TowerStats" ValueChanged="@(() => RecalculateUWs())"></Website.Components.TowerStatsComponent>
+
     <!-- UW Cards Section -->
     <div class="row g-4">
         @foreach (var uw in data.Uws)

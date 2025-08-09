@@ -4,7 +4,7 @@ namespace UltimateWeapons.Cycleables.Weapons;
 
 public class BlackHole : UltimateWeapon
 {
-    public TowerStats TowerStats { get; }
+    public TowerStats TowerStats { get; set; }
     public override string Name => "Black Hole";
 
     // Size - Duration - Cooldown

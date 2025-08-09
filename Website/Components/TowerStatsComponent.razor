@@ -1,0 +1,126 @@
+﻿<div class="tower-stats-section mb-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning bg-gradient text-dark">
+            <h5 class="card-title mb-0">
+                <i class="me-2">🏗️</i>Tower Statistics
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row g-3">
+                <!-- Tower Radius -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="stat-item">
+                        <label class="stat-label">
+                            <i class="me-2">📏</i>Tower Radius
+                        </label>
+                        <div class="input-group">
+                            <input type="number"
+                                   class="form-control stat-input"
+                                   step="0.1"
+                                   min="0"
+                                   @bind="TowerStats.TowerRadius"
+                                   @bind:event="onchange" @bind:after="OnValueChanged"
+                                   placeholder="Enter radius..." />
+                            <span class="input-group-text stat-unit">units</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder for future stats - uncomment and modify as needed -->
+                @*
+                <div class="col-md-6 col-lg-4">
+                    <div class="stat-item">
+                        <label class="stat-label">
+                            <i class="me-2">⚡</i>Tower Power
+                        </label>
+                        <div class="input-group">
+                            <input type="number" 
+                                   class="form-control stat-input" 
+                                   step="1" 
+                                   min="0"
+                                   @bind="TowerStats.TowerPower" 
+                                   @oninput="OnValueChanged"
+                                   placeholder="Enter power..." />
+                            <span class="input-group-text stat-unit">MW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="stat-item">
+                        <label class="stat-label">
+                            <i class="me-2">🎯</i>Tower Range
+                        </label>
+                        <div class="input-group">
+                            <input type="number" 
+                                   class="form-control stat-input" 
+                                   step="0.5" 
+                                   min="0"
+                                   @bind="TowerStats.TowerRange" 
+                                   @oninput="OnValueChanged"
+                                   placeholder="Enter range..." />
+                            <span class="input-group-text stat-unit">km</span>
+                        </div>
+                    </div>
+                </div>
+                *@
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tower-stats-section .card-header {
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .stat-item {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-color: #ffc107;
+        }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .stat-input {
+        font-family: 'Courier New', monospace;
+        font-weight: 500;
+        border: 2px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+
+        .stat-input:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+        }
+
+        .stat-input:hover {
+            border-color: #ffc107;
+        }
+
+    .stat-unit {
+        background-color: #ffc107;
+        color: #000;
+        font-weight: 600;
+        border: 2px solid #ffc107;
+        font-size: 0.85rem;
+    }
+</style>
+
