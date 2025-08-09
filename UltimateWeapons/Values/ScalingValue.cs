@@ -7,4 +7,6 @@ public abstract class ScalingValue(int level, int maxLevel)
     public int MaxLevel { get; set; } = maxLevel;
 
     public abstract decimal CurrentValue { get; }
+    public bool SupportsModuleSubstat { get; set; } = false;
+    public decimal AddedBonus { get; set; }
 }

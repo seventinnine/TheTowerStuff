@@ -3,44 +3,276 @@
 
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Stone Investment</h1>
-    
-    <!-- Select Box -->
-    <div class="row mb-5">
-        <div class="col-md-4">
-            <label for="category-select" class="form-label fw-semibold">Select Category</label>
-            <select @bind="selectBox_UWName" class="form-select" disabled="@DisableAddingUWs">
-                @foreach(var uw in AvailableUWs)
-                {
-                    <option value="@uw">@uw</option>
-                }
-            </select>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <button disabled="@DisableAddingUWs" type="button" class="btn btn-primary" onclick="@(() => AddUW(selectBox_UWName))">Add</button>
+
+    <!-- Add UW Section -->
+    <div class="add-uw-section mb-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-primary bg-gradient text-white">
+                <h5 class="card-title mb-0">
+                    <i class="me-2">➕</i>Add New UW
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-end">
+                    <div class="col-md-8">
+                        <label for="category-select" class="form-label fw-semibold text-muted">
+                            <i class="me-1">📋</i>Select Category
+                        </label>
+                        <select @bind="selectBox_UWName" class="form-select form-select-lg" disabled="@DisableAddingUWs">
+                            @foreach (var uw in AvailableUWs)
+                            {
+                                <option value="@uw">@uw</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button disabled="@DisableAddingUWs"
+                                type="button"
+                                class="btn btn-success btn-lg w-100 add-btn"
+                                onclick="@(() => AddUW(selectBox_UWName))">
+                            <i class="me-2">✨</i>Add UW
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Cycle Info Section -->
+    <div class="cycle-info-section mb-5">
+        <div class="card shadow-sm border-0">
+            <div class="card-header bg-info bg-gradient text-white">
+                <h5 class="card-title mb-0">
+                    <i class="me-2">🔄</i>Cycle Information
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="me-2">💰</i>Multiplier
+                            </div>
+                            <div class="info-value">
+                                @CycleInfo.CoinsPerSecond
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="me-2">⏱️</i>Cycle Time
+                            </div>
+                            <div class="info-value">
+                                @CycleInfo.Duration
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- UW Cards Section -->
     <div class="row g-4">
-
-        @foreach(var uw in uws)
+        @foreach (var uw in data.Uws)
         {
             <div class="col-lg-4 col-md-6">
                 <div class="card h-100 shadow-sm">
-                    <div class="card-img-top bg-primary bg-gradient" style="height: 200px; background: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%);"></div>
+                    @* <div class="card-img-top bg-primary bg-gradient" style="height: 200px; background: linear-gradient(135deg, #0d6efd 0%, #6f42c1 100%);"></div> *@
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@uw.Name</h5>
-                        <Website.Components.PerkToggleComponent Description="@uw.PerkDescription" Value="@uw.PerkEnabled" ValueChanged="@((v) => { uw.PerkEnabled = v; RecalculateUWs();})"></Website.Components.PerkToggleComponent>
-                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot1" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
-                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot2" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
-                        <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot3" ValueChanged="@((v) => RecalculateUWs())"></Website.Components.ScalingValueComponent>
-                        <p>Stats: @uw.CurrentStats</p>
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">@uw.Name</h5>
+                            <button type="button"
+                                    class="btn btn-outline-danger btn-sm ms-2"
+                                    @onclick="() => DeleteUW(uw)"
+                                    title="Delete @uw.Name">
+                                ×
+                            </button>
+                        </div>
+
+                        <div class="perk-section mb-3">
+                            <h6 class="section-header mb-2">
+                                ⭐ Perk
+                            </h6>
+                            <div class="section-content">
+                                <Website.Components.PerkToggleComponent Description="@uw.PerkDescription" Value="@uw.PerkEnabled" ValueChanged="@((v) => { uw.PerkEnabled = v; RecalculateUWs();})"></Website.Components.PerkToggleComponent>
+                            </div>
+                        </div>
+
+                        <div class="properties-section mb-3">
+                            <h6 class="section-header mb-2">
+                                ⚙️ Properties
+                            </h6>
+                            <div class="section-content">
+                                @if(uw.Properties.Slot1 is not null)
+                                {
+                                    <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot1" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                                }
+                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot2" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot3" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                            </div>
+                        </div>
+
+                        <div class="stats-section mb-3">
+                            <h6 class="section-header mb-2">
+                                📊 Stats
+                            </h6>
+                            <div class="section-content">
+                                <span class="stats-value">@uw.CurrentStats</span>
+                            </div>
+                        </div>
+
+                        <div class="labs-section">
+                            <h6 class="section-header mb-2">
+                                🧪 Labs
+                            </h6>
+                            <div class="section-content">
+                                @foreach (var lab in uw.GetLabSlots())
+                                {
+                                    <Website.Components.ScalingValueComponent Value="@lab" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                                }
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         }
     </div>
 
-    <div>Result: @CoinsPerSecond</div>
 </div>
 
+<style>
+    .add-uw-section .card-header {
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .add-btn {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+        .add-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(25, 135, 84, 0.3);
+        }
+
+    .cycle-info-section .card-header {
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .info-item {
+        background-color: #f8f9fa;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        text-align: center;
+        transition: transform 0.2s ease;
+    }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .info-label {
+        font-size: 0.9rem;
+        color: #6c757d;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #495057;
+        font-family: 'Courier New', monospace;
+        background-color: #ffffff;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        border: 2px solid #17a2b8;
+        display: inline-block;
+        min-width: 120px;
+    }
+
+    .section-header {
+        color: #6c757d;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    .section-header-button {
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+        .section-header-button:hover {
+            background-color: rgba(108, 117, 125, 0.1) !important;
+            border-radius: 0.25rem;
+            padding: 0.25rem !important;
+        }
+
+    .collapse-icon {
+        font-size: 0.8rem;
+        color: #6c757d;
+        transition: transform 0.3s ease;
+        font-family: monospace;
+    }
+
+    .section-header-button[aria-expanded="false"] .collapse-icon {
+        transform: rotate(-90deg);
+    }
+
+    .section-content {
+        background-color: #f8f9fa;
+        border-radius: 0.375rem;
+        padding: 0.75rem;
+        border: 1px solid #e9ecef;
+    }
+
+    .stats-value {
+        font-weight: 500;
+        color: #495057;
+        font-family: 'Courier New', monospace;
+        background-color: #ffffff;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        border: 1px solid #dee2e6;
+        display: inline-block;
+    }
+
+    .labs-section {
+        margin-top: auto;
+        padding-top: 0.5rem;
+    }
+
+    .btn-outline-danger:hover {
+        transform: scale(1.05);
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card-body > div:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    .form-select:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    /* Bootstrap collapse animations */
+    .collapse {
+        transition: height 0.35s ease;
+    }
+
+    .collapsing {
+        transition: height 0.35s ease;
+    }
+</style>

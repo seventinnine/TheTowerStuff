@@ -9,7 +9,7 @@ namespace Website.Components
         public ScalingValue Value { get; set; } = default!;
 
         [Parameter]
-        public EventCallback<ScalingValue> ValueChanged { get; set; }
+        public EventCallback ValueChanged { get; set; }
 
         private bool _isIncrementDisabled => Value.Level >= Value.MaxLevel;
         private bool _isDecrementDisabled => Value.Level <= 0;
@@ -28,8 +28,13 @@ namespace Website.Components
             if (Value.Level > 0)
             {
                 Value.Level--;
-                await ValueChanged.InvokeAsync(Value); // Notify parent
+                await ValueChanged.InvokeAsync(); // Notify parent
             }
+        }
+
+        private async Task OnAddedBonusChanged()
+        {
+            await ValueChanged.InvokeAsync(Value);
         }
     }
 }

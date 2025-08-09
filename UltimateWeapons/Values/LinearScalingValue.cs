@@ -5,5 +5,5 @@ public class LinearScalingValue(int level, int maxLevel, decimal startValue, dec
     public decimal StartValue { get; } = startValue;
     public decimal ValuePerLevel { get; } = valuePerLevel;
 
-    public override decimal CurrentValue => StartValue + Level * ValuePerLevel;
+    public override decimal CurrentValue => StartValue + Level * ValuePerLevel + AddedBonus;
 }

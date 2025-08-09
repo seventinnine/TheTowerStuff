@@ -33,12 +33,12 @@ public class DeathWave : UltimateWeapon
         return Lab_DWCoinBonus.CurrentValue;
     }
 
-    public static DeathWave Create()
+    public static DeathWave Create(/*Dictionary<int, decimal> deathWaveDamageLookup*/)
     {
-        var dwDamage = new LookupBasedScalingValue(level: 0, maxLevel: 30, new Dictionary<int, decimal> { { 0, 2 } }) { Name = "Damage" };
+        //var dwDamage = new LookupBasedScalingValue(level: 0, maxLevel: 30, deathWaveDamageLookup) { Name = "Damage" };
         var dwEffectWaves = new LinearScalingValue(level: 0, maxLevel: 4, startValue: 1, valuePerLevel: 1) { Name = "Effect Waves" };
         var dwCooldown = new LinearScalingValue(level: 0, maxLevel: 25, startValue: 300, valuePerLevel: -10) { Name = "Cooldown" };
-        var dwWorkshop = new UltimateWeaponProperties(dwDamage, dwEffectWaves, dwCooldown);
+        var dwWorkshop = new UltimateWeaponProperties(null, dwEffectWaves, dwCooldown);
         var dwCoinBonusLab = new LinearScalingValue(level: 0, maxLevel: 20, startValue: 1.5m, valuePerLevel: 0.05m) { Name = "Coin Bonus" };
         return new DeathWave(dwWorkshop, dwCoinBonusLab, false) { PerkDescription = "+1 wave on Death Wave" };
     }
