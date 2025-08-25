@@ -31,10 +31,10 @@ public class GoldenTower : UltimateWeapon
 
     private decimal EvaluateGTBonus()
     {
-        var totalMultiplier = Properties.Slot1.CurrentValue + Lab_GTBonus.CurrentValue + ModuleSubEffects.Slot1;
+        var totalMultiplier = Properties.Slot1.CurrentValue + Lab_GTBonus.CurrentValue;
         if (PerkEnabled)
         {
-            totalMultiplier = (totalMultiplier - 1.0m) * 1.5m + 1.0m;
+            totalMultiplier = (totalMultiplier - ModuleSubEffects.Slot1) * 1.5m + ModuleSubEffects.Slot1;
         }
         return totalMultiplier;
     }

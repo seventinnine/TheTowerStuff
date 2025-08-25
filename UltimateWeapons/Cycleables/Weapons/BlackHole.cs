@@ -57,7 +57,7 @@ public class BlackHole : UltimateWeapon
         var bhCooldown = new LinearScalingValue(level: 0, maxLevel: 15, startValue: 200, valuePerLevel: -10) { Name = "Cooldown" };
         var bhWorkshop = new UltimateWeaponProperties(bhSize, bhDuration, bhCooldown);
         var bhCoinBonusLab = new LinearScalingValue(level: 0, maxLevel: 20, startValue: 1.0m, valuePerLevel: 0.5m) { Name = "Coin Bonus" };
-        var bhExtraLab = new LinearScalingValue(level: 0, maxLevel: 1, startValue: 0, valuePerLevel: 1) { Name = "Extra Black Hole" };
+        var bhExtraLab = new LinearScalingValue(level: 0, maxLevel: 2, startValue: 0, valuePerLevel: 1) { Name = "Extra Black Hole" };
         return new BlackHole(towerStats, bhWorkshop, bhExtraLab, bhCoinBonusLab, false) { PerkDescription = "Black Hole duration +12.0s" };
     }
 
