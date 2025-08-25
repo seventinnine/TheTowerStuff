@@ -21,7 +21,7 @@ public class GoldenTower : UltimateWeapon
 
     private int EvaluateGTCooldown()
     {
-        return (int)(Properties.Slot3.CurrentValue + ModuleSubEffects.Slot3);
+        return (int)(Properties.Slot3.CurrentValue - ModuleSubEffects.Slot3);
     }
 
     private int EvaluateGTDuration()

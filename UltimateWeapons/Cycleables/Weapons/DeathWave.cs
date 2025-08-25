@@ -20,7 +20,7 @@ public class DeathWave : UltimateWeapon
 
     private int EvaluateDWCooldown()
     {
-        return (int)(Properties.Slot3.CurrentValue + ModuleSubEffects.Slot3);
+        return (int)(Properties.Slot3.CurrentValue - ModuleSubEffects.Slot3);
     }
 
     private int EvaluateDWDuration()

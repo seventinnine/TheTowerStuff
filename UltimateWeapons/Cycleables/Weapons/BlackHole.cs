@@ -25,7 +25,7 @@ public class BlackHole : UltimateWeapon
 
     private int EvaluateBHCooldown()
     {
-        return (int)(Properties.Slot3.CurrentValue + ModuleSubEffects.Slot3);
+        return (int)(Properties.Slot3.CurrentValue - ModuleSubEffects.Slot3);
     }
 
     private int EvaluateBHDuration()
