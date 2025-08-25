@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Diagnostics;
 using UltimateWeapons;
 using UltimateWeapons.Cycleables;
 using UltimateWeapons.Cycleables.Weapons;
@@ -86,11 +87,15 @@ namespace Website.Pages
 
         private async Task RecalculateUWs(bool save = true)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             foreach (var uw in data.Uws)
             {
                 uw.ReEvaluate();
             }
             CycleInfo = UltimateWeaponCycling.Simulate(data.Uws.Cast<Cycleable>().ToList());
+            sw.Stop();
+            Console.WriteLine("Recalc: " + sw.ElapsedMilliseconds);
             if (save)
             {
                 await persistenceService.SaveDataToLocalStorageAsync(data);
@@ -105,6 +110,21 @@ namespace Website.Pages
             SelectNextUW();
             await RecalculateUWs(save: false);
             StateHasChanged();
+        }
+        private async Task UpdateSubModuleValue1(decimal newValue, ModuleBonuses mb)
+        {
+            mb.Slot1 = newValue;
+            await RecalculateUWs();
+        }
+        private async Task UpdateSubModuleValue2(decimal newValue, ModuleBonuses mb)
+        {
+            mb.Slot2 = newValue;
+            await RecalculateUWs();
+        }
+        private async Task UpdateSubModuleValue3(decimal newValue, ModuleBonuses mb)
+        {
+            mb.Slot3 = newValue;
+            await RecalculateUWs();
         }
     }
 }

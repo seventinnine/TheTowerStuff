@@ -109,10 +109,10 @@
                             <div class="section-content">
                                 @if(uw.Properties.Slot1 is not null)
                                 {
-                                    <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot1" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                                    <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot1" SubModuleValue="@uw.ModuleSubEffects.Slot1" ValueChanged="@(() => RecalculateUWs())" SubModuleValueChanged="@((v) => UpdateSubModuleValue1(v, uw.ModuleSubEffects))"></Website.Components.ScalingValueComponent>
                                 }
-                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot2" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
-                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot3" ValueChanged="@(() => RecalculateUWs())"></Website.Components.ScalingValueComponent>
+                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot2" SubModuleValue="@uw.ModuleSubEffects.Slot2" ValueChanged="@(() => RecalculateUWs())" SubModuleValueChanged="@((v) => UpdateSubModuleValue2(v, uw.ModuleSubEffects))"></Website.Components.ScalingValueComponent>
+                                <Website.Components.ScalingValueComponent Value="@uw.Properties.Slot3" SubModuleValue="@uw.ModuleSubEffects.Slot3" ValueChanged="@(() => RecalculateUWs())" SubModuleValueChanged="@((v) => UpdateSubModuleValue3(v, uw.ModuleSubEffects))"></Website.Components.ScalingValueComponent>
                             </div>
                         </div>
 

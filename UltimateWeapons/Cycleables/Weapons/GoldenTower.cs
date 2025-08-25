@@ -34,7 +34,7 @@ public class GoldenTower : UltimateWeapon
         var totalMultiplier = Properties.Slot1.CurrentValue + Lab_GTBonus.CurrentValue;
         if (PerkEnabled)
         {
-            totalMultiplier = (totalMultiplier - ModuleSubEffects.Slot1) * 1.5m + ModuleSubEffects.Slot1;
+            totalMultiplier = totalMultiplier * 1.5m + ModuleSubEffects.Slot1;
         }
         return totalMultiplier;
     }

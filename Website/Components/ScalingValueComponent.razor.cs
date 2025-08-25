@@ -7,9 +7,14 @@ namespace Website.Components
     {
         [Parameter]
         public ScalingValue Value { get; set; } = default!;
+        [Parameter]
+        public decimal SubModuleValue { get; set; } = default!;
 
         [Parameter]
         public EventCallback ValueChanged { get; set; }
+
+        [Parameter]
+        public EventCallback<decimal> SubModuleValueChanged { get; set; }
 
         private bool _isIncrementDisabled => Value.Level >= Value.MaxLevel;
         private bool _isDecrementDisabled => Value.Level <= 0;
@@ -32,9 +37,9 @@ namespace Website.Components
             }
         }
 
-        private async Task OnAddedBonusChanged()
+        private async Task OnSubModuleValueChanged()
         {
-            await ValueChanged.InvokeAsync(Value);
+            await SubModuleValueChanged.InvokeAsync(SubModuleValue);
         }
     }
 }
